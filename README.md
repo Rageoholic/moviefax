@@ -37,9 +37,16 @@ That document will refer to choices made over the course of development.
    `http://localhost:3000` to your authorized javascript origins and
    `http://localhost:3000/api/auth/callback/google` to your authorized
    redirects.
-1. Set `OMDB_API_KEY` and `OPENAI_API_KEY` in `.env`.
+1. Get an OMDb API key from [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx).
+   Copy the key you receive into `OMDB_API_KEY` in `.env`.
+1. Create an OpenAI API key from the [OpenAI API keys page](https://platform.openai.com/api-keys).
+   Copy that key into `OPENAI_API_KEY` in `.env`.
 1. Fill in your database URL and credentials for your postgres database and run
    `npm run db:push`from the project root. This will cause Prisma to apply your
    database schema.
 1. From the project root, run `npm run dev`. You will now have a server running
    at localhost:3000 with the application.
+
+## AI Assistance
+
+How AI was used in this project is documented in `AI_SUMMARY.md`
