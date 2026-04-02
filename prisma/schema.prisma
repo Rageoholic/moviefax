@@ -61,7 +61,8 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    favoriteMovie String?
+    trustedTitle  String?
+    trustedImdbId String?
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

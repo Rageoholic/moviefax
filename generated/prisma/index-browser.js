@@ -158,7 +158,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
-  favoriteMovie: 'favoriteMovie'
+  trustedTitle: 'trustedTitle',
+  trustedImdbId: 'trustedImdbId'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {

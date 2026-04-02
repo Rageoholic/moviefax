@@ -5,7 +5,7 @@ import { SignInButton } from "./auth-button";
 export default async function HomePage() {
 	const user = await getCurrentUser();
 
-	if (user?.favoriteMovie) {
+	if (user?.movieTitle) {
 		redirect("/dashboard");
 	}
 

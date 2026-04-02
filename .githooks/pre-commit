@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+set -e
+
+echo "Running strict pre-commit check..."
+npm run check:strict

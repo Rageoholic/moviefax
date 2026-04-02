@@ -9,7 +9,7 @@ export default async function DashboardPage() {
 		redirect("/");
 	}
 
-	if (!user.favoriteMovie) {
+	if (!user.movieTitle) {
 		redirect("/onboard");
 	}
 
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
 							Favorite movie
 						</p>
 						<p className="mt-2 font-semibold text-2xl text-white">
-							{user.favoriteMovie}
+							{user.movieTitle}
 						</p>
 					</section>
 				</div>

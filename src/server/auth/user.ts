@@ -9,14 +9,28 @@ export async function getCurrentUser() {
 		return null;
 	}
 
-	return db.user.findUnique({
+	const user = await db.user.findUnique({
 		where: { id: session.user.id },
 		select: {
 			id: true,
 			name: true,
 			email: true,
 			image: true,
-			favoriteMovie: true,
+			trustedTitle: true,
+			trustedImdbId: true,
 		},
 	});
+
+	if (!user) {
+		return null;
+	}
+
+	return {
+		email: user.email,
+		id: user.id,
+		image: user.image,
+		movieId: user.trustedImdbId,
+		movieTitle: user.trustedTitle,
+		name: user.name,
+	};
 }

@@ -171,4 +171,37 @@ outsourcing this to OMDB and acting as if their source of data is trusted.
 ***THIS IS NOT IDEAL***. We will perform fuzzy searches as the user types,
 making sure to wait at least a few keystrokes or a half second before querying
 the fuzzy match API. This is to ensure that our implementation is not spamming
-the API constantly. We likely also want backoff if we get rejected.
+the API constantly. We likely also want backoff if we get rejected. In addition,
+instead of submitting a *name*, we submit the OMDB *id*.
+
+### Implementation.
+
+With that block written, we can point copilot to it for the implementation.
+During this implementation, copilot made a mistake, which is it named four
+separate things trustedId, only one of which could even theoretically be a
+trusted id
+- The client field in the app
+- The parameter passed by the app to set the user's favorite movie
+- The parsed version of that id on the server after parsing but before validation
+- The field in the struct used to represent the id given to us by imdb.
+
+The last one actually is trusted (grudgingly) but the rest all need to be
+renamed and the field also needs to be renamed because the instant it hits the
+client it no longer is trusted. I also added a note in CLAUDE.md and
+CONTRIBUTING.md that "trusted" as a term is effectively banned from any client
+visible fields.
+
+I also turned off the sorted classes lint for biome as while it is meaningful
+and useful (I use autosorted imports all the time) it is annoyingly lumped in
+with lints rather than formatting settings, and you cannot granularly turn them
+down. Autofixing other lints can cause code to be refactored so it's not
+desirable to do automatically behind the programmer's back. Instead, I disabled
+the lint in the default configuration, made a separate stricter config where
+that lint is on, and we check against the strict config in a precommit hook.
+write still uses the stricter config too, as we accepted we're doing the more
+destructive actions too so we might as well allow the non-semantic changes. I
+then consulted the AI and moved import and jsx attribute sorting to only be
+enabled in strict as well.
+
+For the commit I let copilot handle it. It was there for the whole thing and
+knows the exact intended semantics.

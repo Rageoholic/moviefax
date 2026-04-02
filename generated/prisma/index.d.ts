@@ -4626,7 +4626,8 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
-    favoriteMovie: string | null
+    trustedTitle: string | null
+    trustedImdbId: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4635,7 +4636,8 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
-    favoriteMovie: string | null
+    trustedTitle: string | null
+    trustedImdbId: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4644,7 +4646,8 @@ export namespace Prisma {
     email: number
     emailVerified: number
     image: number
-    favoriteMovie: number
+    trustedTitle: number
+    trustedImdbId: number
     _all: number
   }
 
@@ -4655,7 +4658,8 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
-    favoriteMovie?: true
+    trustedTitle?: true
+    trustedImdbId?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4664,7 +4668,8 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
-    favoriteMovie?: true
+    trustedTitle?: true
+    trustedImdbId?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4673,7 +4678,8 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     image?: true
-    favoriteMovie?: true
+    trustedTitle?: true
+    trustedImdbId?: true
     _all?: true
   }
 
@@ -4755,7 +4761,8 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     image: string | null
-    favoriteMovie: string | null
+    trustedTitle: string | null
+    trustedImdbId: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -4781,7 +4788,8 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
-    favoriteMovie?: boolean
+    trustedTitle?: boolean
+    trustedImdbId?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
@@ -4794,7 +4802,8 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
-    favoriteMovie?: boolean
+    trustedTitle?: boolean
+    trustedImdbId?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4803,7 +4812,8 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
-    favoriteMovie?: boolean
+    trustedTitle?: boolean
+    trustedImdbId?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -4812,10 +4822,11 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     image?: boolean
-    favoriteMovie?: boolean
+    trustedTitle?: boolean
+    trustedImdbId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "favoriteMovie", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "trustedTitle" | "trustedImdbId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -4838,7 +4849,8 @@ export namespace Prisma {
       email: string | null
       emailVerified: Date | null
       image: string | null
-      favoriteMovie: string | null
+      trustedTitle: string | null
+      trustedImdbId: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -5270,7 +5282,8 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
-    readonly favoriteMovie: FieldRef<"User", 'String'>
+    readonly trustedTitle: FieldRef<"User", 'String'>
+    readonly trustedImdbId: FieldRef<"User", 'String'>
   }
     
 
@@ -6778,7 +6791,8 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
-    favoriteMovie: 'favoriteMovie'
+    trustedTitle: 'trustedTitle',
+    trustedImdbId: 'trustedImdbId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7095,7 +7109,8 @@ export namespace Prisma {
     email?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
-    favoriteMovie?: StringNullableFilter<"User"> | string | null
+    trustedTitle?: StringNullableFilter<"User"> | string | null
+    trustedImdbId?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -7107,7 +7122,8 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
-    favoriteMovie?: SortOrderInput | SortOrder
+    trustedTitle?: SortOrderInput | SortOrder
+    trustedImdbId?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
@@ -7122,7 +7138,8 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
-    favoriteMovie?: StringNullableFilter<"User"> | string | null
+    trustedTitle?: StringNullableFilter<"User"> | string | null
+    trustedImdbId?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     posts?: PostListRelationFilter
@@ -7134,7 +7151,8 @@ export namespace Prisma {
     email?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
-    favoriteMovie?: SortOrderInput | SortOrder
+    trustedTitle?: SortOrderInput | SortOrder
+    trustedImdbId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -7149,7 +7167,8 @@ export namespace Prisma {
     email?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
-    favoriteMovie?: StringNullableWithAggregatesFilter<"User"> | string | null
+    trustedTitle?: StringNullableWithAggregatesFilter<"User"> | string | null
+    trustedImdbId?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type VerificationTokenWhereInput = {
@@ -7412,7 +7431,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
@@ -7424,7 +7444,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7436,7 +7457,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
@@ -7448,7 +7470,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7460,7 +7483,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -7469,7 +7493,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -7478,7 +7503,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type VerificationTokenCreateInput = {
@@ -7841,7 +7867,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
-    favoriteMovie?: SortOrder
+    trustedTitle?: SortOrder
+    trustedImdbId?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -7850,7 +7877,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
-    favoriteMovie?: SortOrder
+    trustedTitle?: SortOrder
+    trustedImdbId?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -7859,7 +7887,8 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
-    favoriteMovie?: SortOrder
+    trustedTitle?: SortOrder
+    trustedImdbId?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8293,7 +8322,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
   }
@@ -8304,7 +8334,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
   }
@@ -8331,7 +8362,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
   }
@@ -8342,7 +8374,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -8353,7 +8386,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
   }
@@ -8364,7 +8398,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -8391,7 +8426,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
   }
@@ -8402,7 +8438,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
   }
@@ -8413,7 +8450,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutCreatedByInput
   }
@@ -8424,7 +8462,8 @@ export namespace Prisma {
     email?: string | null
     emailVerified?: Date | string | null
     image?: string | null
-    favoriteMovie?: string | null
+    trustedTitle?: string | null
+    trustedImdbId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutCreatedByInput
   }
@@ -8451,7 +8490,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutCreatedByNestedInput
   }
@@ -8462,7 +8502,8 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
-    favoriteMovie?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedTitle?: NullableStringFieldUpdateOperationsInput | string | null
+    trustedImdbId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutCreatedByNestedInput
   }
