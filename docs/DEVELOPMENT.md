@@ -204,4 +204,119 @@ then consulted the AI and moved import and jsx attribute sorting to only be
 enabled in strict as well.
 
 For the commit I let copilot handle it. It was there for the whole thing and
-knows the exact intended semantics.
+knows the exact intended semantics. Normally I would submit a PR and do a proper
+merge but I didn't bother as I don't have any specific CI set up right now and
+I don't have any co-reviewers so PRs become process theater.
+
+## OpenAI integration
+
+### Planning
+
+We already did things correctly so this step should be a cinch. Just make a
+request to OpenAI and save the data. I also think it makes sense to fold in
+variant A here since I can be a performance junkie and I like thinking about
+problems like caching. The current cache plan is a per row lock on the users
+table as well as the id of their most recently generated fact stored inline.
+Facts will be up to 500 characters and will also retain the timestamp they were
+generated and the user who created it. If this was a real project, the plan
+would be to attempt to grab the user row in read only mode, read the last fact
+the user generated, compare the time stamp and if the fact is outdated, release
+the read only lock and attempt to grab a read write lock. This is a common
+pattern for concurrency used in mutexes, RWLocks, and other local applications,
+so it feels relatively intuitive that it should work here as well. However, the
+cache only lasts for 60s, which means that this is probably overkill. The fast
+path wants to be generating a new fact. So we'll just always grab the lock in
+write mode. I don't remember if you can lock one side of a join but not the
+other and honestly I don't care, the facts table will be append only in
+production. We also want a button to regenerate the fact in the UI.
+
+Tangent: At this point I'm asking if 500 characters is conservative. According
+to Claude probably not. It also reminded me that we have to set max tokens.
+
+### Constraints
+
+We have to remember that API tokens cost. We should set a cap on the amount used
+per request. We should also implement exponential backoff and rate limiting.
+Ideally, we'd be able to calculate our maximum spend per day on tokens, but
+that's something that would need to be discussed with an operations team. We
+solved prompt injection at the data layer so it doesn't need to be worried about
+here.
+
+Claude suggested a few things I missed and pointed out that OpenAI's SDK has
+rate limiting built in
+
+- Timeout: Yeah I probably should have remembered this one. Obviously we don't
+  want to hang and leave the user waiting if OpenAI is up but not responding
+- Model: Claude suggested gpt-40-mini. Honestly I'm not super familiar with
+  OpenAI's exact hierarchy of models, but typically when I want to use something
+  explicitly for code it's GPT-5-mini because it doesn't use premium requests
+  with copilot. Obviously not the constraint here. I do remember hearing that
+  OpenAI has been moving to retire 4 models though. I'm checking with Claude
+  again. Claude pointend me to the deprecation doc and no it's not currently not
+  scheduled for deprecation. In a real app, paying attention to these
+  deprecations and keeping on top is critical, and maintaining a migration path,
+  but we won't bother here.
+
+ ### Implementation
+
+ While telling copilot to run the implementation, I realized I forgot to
+ specify above the fallback to the most recent path if the call fails. I had it
+ in the back of my head but I didn't write it down. Luckily copilot caught it
+ and found the explicit requirement documented above. I also decided to fold
+ tests in here. Copilot also flagged that the exact spec doesn't require an in
+ place update but I think it's better to do it in place.
+
+After implementation, found a silly bug where if you double click, the service
+will recieve a second request to regenerate before the first one succeeded.
+Copilot added both client side debouncing and request level merging, handling
+this problem. However the server problem was solvedd solely via a server side
+fence, which is sufficient for single machine cases but not multi-machine
+cases. Me and copilot migrated to a two fence solution where the server fence
+remains in place but the forced refresh also takes a timestamp of when the
+request was recieved. A client timestamp could be in the future and while it's
+validatable it's not really logically part of the request, so the server side
+timestamp is better. If after acquiring the lock, the generated fact is newer
+than the request, we don't need to regenerate again. This elegantly scales the
+problem for the cost of taking 1 timestamp, which in terms of cost is almost
+free.
+
+We also noted that the fact generation has almost no variation. We solve this
+by fetching several facts per generation and passing them to the model. This
+has two knock on implications
+
+- We can get rid of the most recently generated fact in the user table. It was
+  used as a more efficient key. Since we need to fetch more than one, we could
+  have adopted a FIFO but it's simpler to just rip it out and order by
+  timestamp.
+- We're feeding the model its own output. This makes me worried about output
+  degredation. However a couple of notes
+  - The solution is still bounded, we only feed 5 previous facts, all of which
+    have a max size. Therefore the prompts are bounded and so our token costs
+    are bounded. Runaway costs are not a concern
+  - Model degredation is possible but not a severe risk. The worst case is
+    that the prompt generates an incorrect fact and refuses to correct itself,
+    but the model could also drift to only answering certain types of questions.
+    There are some mitigations
+    - The history window is small, so there's not some runaway scaling where
+      we get off track and that fact is now considered gospel
+      - The history is still conditioning the model, so it is not a pure
+        negative bias. However it is being used narrowly to discourage repeats
+        rather than as authoritative context, which mitigates some of the risk
+        of drift.
+  - The solutions suggested by copilot require us to check for duplicate
+    topics ourselves and reject them manually
+      - This sucks because now we start introducing major tail latency
+        problems where the model generates the same types of facts repeatedly
+      - This also sucks because we need to implement a means of querying the
+        topics of facts in a normalized way, ideally without calling out to an
+        LLM. This seems like a thesis topic, not a practical engineering solution.
+  - Because of the questionableness of the suggestions, I did not implement a
+    further solution, leaving the passing of the last few topics in place
+
+## Favorite Movie Reassignment
+
+The last task I want to touch is changing the users favorite movie. This has 1
+broad implication that I have not taken into account yet, which is that facts
+also must be associated with the movie they're about. That way, we feed clean
+context to the model instead of facts about a completely different movie that
+risk biasing it.

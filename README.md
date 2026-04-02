@@ -37,6 +37,7 @@ That document will refer to choices made over the course of development.
    `http://localhost:3000` to your authorized javascript origins and
    `http://localhost:3000/api/auth/callback/google` to your authorized
    redirects.
+1. Set `OMDB_API_KEY` and `OPENAI_API_KEY` in `.env`.
 1. Fill in your database URL and credentials for your postgres database and run
    `npm run db:push`from the project root. This will cause Prisma to apply your
    database schema.

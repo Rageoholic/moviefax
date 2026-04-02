@@ -56,16 +56,28 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    trustedTitle  String?
-    trustedImdbId String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+    id             String      @id @default(cuid())
+    name           String?
+    email          String?     @unique
+    emailVerified  DateTime?
+    image          String?
+    trustedTitle   String?
+    trustedImdbId  String?
+    generatedFacts MovieFact[] @relation("MovieFactOwner")
+    accounts       Account[]
+    sessions       Session[]
+    posts          Post[]
+}
+
+model MovieFact {
+    id         String   @id @default(cuid())
+    fact       String
+    movieTitle String
+    createdAt  DateTime @default(now())
+    userId     String
+    user       User     @relation("MovieFactOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId, createdAt(sort: Desc)])
 }
 
 model VerificationToken {

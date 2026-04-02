@@ -162,6 +162,14 @@ exports.Prisma.UserScalarFieldEnum = {
   trustedImdbId: 'trustedImdbId'
 };
 
+exports.Prisma.MovieFactScalarFieldEnum = {
+  id: 'id',
+  fact: 'fact',
+  movieTitle: 'movieTitle',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
 exports.Prisma.VerificationTokenScalarFieldEnum = {
   identifier: 'identifier',
   token: 'token',
@@ -189,6 +197,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
+  MovieFact: 'MovieFact',
   VerificationToken: 'VerificationToken'
 };
 

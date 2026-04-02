@@ -9,7 +9,7 @@ import {
 } from "~/server/movies/favorite-core";
 import { findTrustedMovieById } from "~/server/movies/omdb";
 
-export async function saveFavoriteMovie(formData: FormData) {
+export async function updateFavoriteMovie(formData: FormData) {
 	const session = await auth();
 
 	if (!session?.user.id) {
@@ -33,7 +33,7 @@ export async function saveFavoriteMovie(formData: FormData) {
 		});
 	} catch (error) {
 		if (error instanceof FavoriteMovieSelectionError) {
-			redirect("/onboard?error=selection");
+			redirect("/edit-favorite?error=selection");
 		}
 
 		throw error;
