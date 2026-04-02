@@ -6,7 +6,7 @@ var L = (e, t) => {
 		for (var n in t) F(e, n, { get: t[n], enumerable: !0 });
 	},
 	N = (e, t, n, r) => {
-		if ((t && typeof t === "object") || typeof t === "function")
+		if ((t && typeof t == "object") || typeof t == "function")
 			for (const o of B(t))
 				!U.call(e, o) &&
 					o !== n &&
@@ -194,32 +194,30 @@ function a(e) {
 }
 function q(e) {
 	const t = typeof e;
-	if (t === "number" || t === "boolean" || e == null) return `${e}`;
-	if (t === "string") return `"${e}"`;
-	if (t === "symbol") {
+	if (t == "number" || t == "boolean" || e == null) return `${e}`;
+	if (t == "string") return `"${e}"`;
+	if (t == "symbol") {
 		const o = e.description;
 		return o == null ? "Symbol" : `Symbol(${o})`;
 	}
-	if (t === "function") {
+	if (t == "function") {
 		const o = e.name;
-		return typeof o === "string" && o.length > 0
-			? `Function(${o})`
-			: "Function";
+		return typeof o == "string" && o.length > 0 ? `Function(${o})` : "Function";
 	}
 	if (Array.isArray(e)) {
 		const o = e.length;
 		let i = "[";
 		o > 0 && (i += q(e[0]));
-		for (let c = 1; c < o; c++) i += `, ${q(e[c])}`;
+		for (let c = 1; c < o; c++) i += ", " + q(e[c]);
 		return (i += "]"), i;
 	}
 	const n = /\[object ([^\]]+)\]/.exec(toString.call(e));
 	let r;
 	if (n && n.length > 1) r = n[1];
 	else return toString.call(e);
-	if (r === "Object")
+	if (r == "Object")
 		try {
-			return `Object(${JSON.stringify(e)})`;
+			return "Object(" + JSON.stringify(e) + ")";
 		} catch {
 			return "Object";
 		}
@@ -386,13 +384,13 @@ function Y(e, t) {
 }
 function K(e, t) {
 	const n = t,
-		r = typeof n === "bigint" ? n : void 0;
+		r = typeof n == "bigint" ? n : void 0;
 	l().setBigInt64(e + 8 * 1, a(r) ? BigInt(0) : r, !0),
 		l().setInt32(e + 4 * 0, !a(r), !0);
 }
 function Z(e) {
 	const t = e,
-		n = typeof t === "boolean" ? t : void 0;
+		n = typeof t == "boolean" ? t : void 0;
 	return a(n) ? 16777215 : n ? 1 : 0;
 }
 function ee(e, t) {
@@ -405,17 +403,17 @@ function te(e, t) {
 	return e in t;
 }
 function ne(e) {
-	return typeof e === "bigint";
+	return typeof e == "bigint";
 }
 function re(e) {
-	return typeof e === "function";
+	return typeof e == "function";
 }
 function _e(e) {
 	const t = e;
-	return typeof t === "object" && t !== null;
+	return typeof t == "object" && t !== null;
 }
 function oe(e) {
-	return typeof e === "string";
+	return typeof e == "string";
 }
 function ce(e) {
 	return e === void 0;
@@ -424,17 +422,17 @@ function ie(e, t) {
 	return e === t;
 }
 function ue(e, t) {
-	return e === t;
+	return e == t;
 }
 function se(e, t) {
 	const n = t,
-		r = typeof n === "number" ? n : void 0;
+		r = typeof n == "number" ? n : void 0;
 	l().setFloat64(e + 8 * 1, a(r) ? 0 : r, !0),
 		l().setInt32(e + 4 * 0, !a(r), !0);
 }
 function be(e, t) {
 	const n = t,
-		r = typeof n === "string" ? n : void 0;
+		r = typeof n == "string" ? n : void 0;
 	var o = a(r) ? 0 : b(r, _.__wbindgen_malloc, _.__wbindgen_realloc),
 		i = s;
 	l().setInt32(e + 4 * 1, i, !0), l().setInt32(e + 4 * 0, o, !0);

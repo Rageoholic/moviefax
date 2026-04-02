@@ -1,36 +1,32 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getCurrentUser } from "~/server/auth/user";
+import { SignInButton } from "./auth-button";
 
-export default function HomePage() {
+export default async function HomePage() {
+	const user = await getCurrentUser();
+
+	if (user?.favoriteMovie) {
+		redirect("/dashboard");
+	}
+
+	if (user) {
+		redirect("/onboard");
+	}
+
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-			<div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-				<h1 className="font-extrabold text-5xl text-white tracking-tight sm:text-[5rem]">
-					Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
+			<div className="flex max-w-xl flex-col items-center gap-6 px-6 text-center">
+				<p className="text-sm text-white/55 uppercase tracking-[0.3em]">
+					MovieFax
+				</p>
+				<h1 className="font-semibold text-4xl tracking-tight sm:text-5xl">
+					Track your favorite movie and get a fresh fact on demand.
 				</h1>
-				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-					<Link
-						className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-						href="https://create.t3.gg/en/usage/first-steps"
-						target="_blank"
-					>
-						<h3 className="font-bold text-2xl">First Steps →</h3>
-						<div className="text-lg">
-							Just the basics - Everything you need to know to set up your
-							database and authentication.
-						</div>
-					</Link>
-					<Link
-						className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-						href="https://create.t3.gg/en/introduction"
-						target="_blank"
-					>
-						<h3 className="font-bold text-2xl">Documentation →</h3>
-						<div className="text-lg">
-							Learn more about Create T3 App, the libraries it uses, and how to
-							deploy it.
-						</div>
-					</Link>
-				</div>
+				<p className="text-base text-white/75 leading-7 sm:text-lg">
+					Sign in with Google to save your favorite movie and unlock your
+					personal dashboard.
+				</p>
+				<SignInButton />
 			</div>
 		</main>
 	);

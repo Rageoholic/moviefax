@@ -60,55 +60,55 @@ After implementation of this basic strategy, two variants for augmenting the App
   1. Modify the front end to go through a typed API layer. The
      specific details of this API are unspecified, but the sample methods are `GET
      api/me`, `PUT api/me/movie`, and `GET api/fact`.
-  2. Create a typed client wrapper that handles requests consistently, parses
+  1. Create a typed client wrapper that handles requests consistently, parses
      typed responses, and normalizes error handling. Write tests to verify
-  3. Modify the front end so the user can edit their favorite movie inline,
+  1. Modify the front end so the user can edit their favorite movie inline,
      allowing for save/cancel. The UI should optimistically assume success but
      revert if the API request fails. Write tests to verify
-  4. Cache the movie fact on the front end for at least 30 seconds, reusing it
+  1. Cache the movie fact on the front end for at least 30 seconds, reusing it
      if we hit cache unless the user explicitly requests a new one.
 
 Notes:
-- While the API is only required to be implemented in the front end, I believe
-  it makes sense to implement in the back end too.
-- Other than the API implementation, the two are disjoint.
-- The frontend variant does not specify that it keeps the cache in a persistent
-  storage. However that is likely necessary, even if that front end storage is a
-  simple cookie
-- The shape of the suggested API seems reasonably correct. The described flow
-  does not seem to imply an SPA for the Backend variant but it does for the
-  Frontend variant.
-- For me the hardest bit would actually probably be the inline editing. My
-  immediate instinct would be to direct to a separate page to input the new
-  favorite movie but that's not a valid implementation strategy for the frontend
-  variant. If I do the backend variant however, that's actually a very easy
-  task.
-- This implies a 3 enclave solution
-    1. **Smart Dispatcher**: `/`,
-       - transparently route to `/login` or `/dashboard` depending on
-         authentication state
-
-    2. **Logged out** - Landing page (`/login`):
-       - If the user tries to access secured pages while logged out, they are
-         redirected here
-
-        - Handles errors with OAuth by redirecting here with params such as
-          `/login?status=error&type=Redirect_failed` and any relevant metadata
-          to display a meaningful error message.
-        - If successful redirect to `/dashboard?status=success&type=Login`
-
-    3. Logged in:
-       - If user is not authenticated, redirect to `/login`
-       - **Dashboard** (`/dashboard`).  If onboarding has not been completed,
-         redirect to `/onboard`
-       - Edit favorite movie page (`/edit-favorite` or `/onboard`).
-         - Displays a simple form with a labeled text field for the user's
-           favorite movie and a submit button.
-         - Submits via `PUT api/me/favorite`
-         - On success: redirect to
-           `/dashboard?status=success&type=FavoriteUpdated`
-         - On failure: redirect to self with parameters `status=failure` and any
-           relevant metadata to construct a proper failure message
+>- While the API is only required to be implemented in the front end, I believe
+>  it makes sense to implement in the back end too.
+>- Other than the API implementation, the two are disjoint.
+>- The frontend variant does not specify that it keeps the cache in a persistent
+>  storage. However that is likely necessary, even if that front end storage is a
+>  simple cookie
+>- The shape of the suggested API seems reasonably correct. The described flow
+>  does not seem to imply an SPA for the Backend variant but it does for the
+>  Frontend variant.
+>- For me the hardest bit would actually probably be the inline editing. My
+>  immediate instinct would be to direct to a separate page to input the new
+>  favorite movie but that's not a valid implementation strategy for the frontend
+>  variant. If I do the backend variant however, that's actually a very easy
+>  task.
+>- This implies a 3 enclave solution
+>    1. **Smart Dispatcher**: `/`,
+>       - transparently route to `/login` or `/dashboard` depending on
+>         authentication state
+>
+>    1. **Logged out** - Landing page (`/login`):
+>       - If the user tries to access secured pages while logged out, they are
+>         redirected here
+>
+>       - Handles errors with OAuth by redirecting here with params such as
+>          `/login?status=error&type=Redirect_failed` and any relevant metadata
+>          to display a meaningful error message.
+>        - If successful redirect to `/dashboard?status=success&type=Login`
+>
+>    1. Logged in:
+>       - If user is not authenticated, redirect to `/login`
+>       - **Dashboard** (`/dashboard`).  If onboarding has not been completed,
+>         redirect to `/onboard`
+>       - Edit favorite movie page (`/edit-favorite` or `/onboard`).
+>         - Displays a simple form with a labeled text field for the user's
+>           favorite movie and a submit button.
+>         - Submits via `PUT api/me/favorite`
+>         - On success: redirect to
+>           `/dashboard?status=success&type=FavoriteUpdated`
+>         - On failure: redirect to self with parameters `status=failure` and any
+>           relevant metadata to construct a proper failure message
 
 
 
@@ -120,3 +120,55 @@ documentation, including README.md and this document. Additionally, unused
 variables were inserted into page.tsx to verify linting via biome works. At this
 stage AI was consulted with to verify insights and act as an editor to make sure
 prose was clear. The initial commit was then made to git.
+
+## First Run
+
+Whenever I initialize a template like this, one of the first things I want to do
+is make sure the basic app works. I edited `.env.example` to have the correct
+authentication variables (it was generated with discord, not google) and plugged
+the appropriate providers into `src/server/auth/config.ts` and `src/env.js`. I then
+copied the template to `.env`, filled in my variables with my generated next
+secret and the id and secret from a google application I initialized. I also
+started a db on my local machine, fed the authentication details into `env`, and
+ran `npm run db:push` to initialize it. I then ran `npm run dev` and navigated
+to `localhost:3000`, which displayed the default template page. I modified
+`src/app/page.tsx` in order to test that hot code reload worked and it did, so
+now we can begin building.
+
+## Initial implementation
+
+Because I specced out my thinking in this file. I could point my copilot model
+at it and get a base implementation almost immediately. However, there was 1
+clear issue, movie names were never validated. They were trimmed, but no
+normalization was applied and the title was arbitrary outside a max character
+limit. While fact generation was not yet online, the literal second it did, we
+would effectively be spending our OpenAI credits so other people could run their
+prompts. This is not acceptable and must be our next task to tackle.
+
+## Input validation
+
+### Planning
+
+The core philosophy behind input validation when passing to an LLM is that the
+LLM must never see a user generated string unless that LLM has no control flow
+responsibility or ability to exfiltrate secure data. For example, it is not okay
+to use an LLM to read an email and write a response without the user having to
+explicitly read the generated response before it is sent and validate that it is
+what they want. It is also not okay for an LLM that has tool access to be
+exposed to any data other than explicit, developer generated commands unless
+those tool uses are validated by the user through explicit whitelisting or
+manual approval. Explicit whitelisting should not include any means to
+exfiltrate or modify data. An example is running git branch. If one simply added
+`git branch` to their whitelist, the LLM could run `git branch -D` to delete
+arbitrary branches. For our purposes this means we have one truely correct
+solution, which is to query a list of movie titles and attempt to fuzzily match
+the user's input against that list, letting them select one and using the string
+as it appears in our source of truth instead of the specific one the user
+submitted. For a real application, the correct solution would be to call an API,
+likely implemented as a microservice that can handle caching and update
+automatically as new movies come out. However this is a simple project so I'm
+outsourcing this to OMDB and acting as if their source of data is trusted.
+***THIS IS NOT IDEAL***. We will perform fuzzy searches as the user types,
+making sure to wait at least a few keystrokes or a half second before querying
+the fuzzy match API. This is to ensure that our implementation is not spamming
+the API constantly. We likely also want backoff if we get rejected.
