@@ -8,6 +8,7 @@ import {
 } from "~/server/facts/service";
 import { SignOutButton } from "../auth-button";
 import { MovieFactPanel } from "./movie-fact-panel";
+import { UserAvatar } from "./user-avatar";
 
 export default async function DashboardPage() {
 	const user = await getCurrentUser();
@@ -34,6 +35,7 @@ export default async function DashboardPage() {
 		<main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] px-6 text-white">
 			<div className="flex w-full max-w-3xl flex-col gap-8 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/25 backdrop-blur">
 				<div className="flex items-start justify-between gap-4">
+					<UserAvatar name={user.name} src={user.image} />
 					<div className="space-y-3">
 						<p className="text-sm text-white/55 uppercase tracking-[0.3em]">
 							Dashboard

@@ -320,3 +320,20 @@ broad implication that I have not taken into account yet, which is that facts
 also must be associated with the movie they're about. That way, we feed clean
 context to the model instead of facts about a completely different movie that
 risk biasing it.
+
+## EMERGENCY PASS
+
+I was logging into google for a different reason and I realized I forgot to add
+support for google profile pictures, which is required by the assignment.
+Luckily we do have access to the google user info so this is a simple update. I
+pointed out the gap to Claude and it helped me take care of the gap. Very easy
+update, no fuss. Me and Claude then added tests to ensure this code is correct.
+
+While I understand that this is an issue and I do not think this is a positive
+indicator, I am documenting this here for transparency and clarity. I am a
+strong believer that these are essential engineering skills. In a more formal
+team project, I would ensure that requirements are clearly discussed with
+clients or team leads to ensure that no accidents like this would happen. Solo
+development is full of hazards like these and what is important is that this was
+caught, corrected, documented, and was analyzed for process changes to prevent
+bugs like this in the future.
