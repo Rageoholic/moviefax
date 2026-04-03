@@ -1,6 +1,7 @@
 # Moviefax!
 
-A simple app to learn interesting facts about your favorite movie!
+A simple app to learn interesting facts about your favorite movie! Made by Hersh
+Krishna
 
 - TypeScript
 - Next.js / React
